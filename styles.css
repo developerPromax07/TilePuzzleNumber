@@ -1,68 +1,65 @@
-/* preserve box-sizing */
-*, *::before, *::after {
+/* 1) global box‐sizing */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-/* make sure the page fills the screen */
+/* 2) fill viewport & center content */
 html, body {
   height: 100%;
   margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-/* animated, shifting rainbow-ish gradient */
+/* 3) RGB background animation */
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  background: linear-gradient(270deg, #223344, #778899, #55aabb, #334455);
-  background-size: 800% 800%;
-  animation: GradientShift 15s ease infinite;
-  padding: 20px;
   color: #fff;
+  animation: rgbShift 10s linear infinite;
 }
 
-@keyframes GradientShift {
-  0%   { background-position:   0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position:   0% 50%; }
+@keyframes rgbShift {
+  0%   { background-color: rgb(255,   0,   0); }
+  33%  { background-color: rgb(  0, 255,   0); }
+  66%  { background-color: rgb(  0,   0, 255); }
+  100% { background-color: rgb(255,   0,   0); }
 }
 
 h1 {
   margin-bottom: 20px;
 }
 
-/* keep the puzzle container above the animated background */
+/* 4) puzzle container as 3×3 grid */
 #puzzle-container {
-  position: relative;
-  z-index: 1;
-
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows:    repeat(3, 100px);
   gap: 2px;
-  width:  calc(3*100px + 2*2px);
-  height: calc(3*100px + 2*2px);
-  margin: 0 auto 20px;
   border: 3px solid #fff;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* 5) tiles */
 .tile {
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  font-size: 32px;
-  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff;
   border-radius: 10px;
   user-select: none;
   transition: background-color 0.2s;
 }
 
-/* numbered tiles get pointer & hover */
+/* numbered tiles: pointer + hover */
 .tile:not(.empty) {
   cursor: pointer;
 }
@@ -70,13 +67,15 @@ h1 {
   background-color: #2daae1 !important;
 }
 
-/* empty slot is always light red, no hover */
+/* empty slot always light red, no hover */
 .tile.empty {
   background-color: #ffcccc !important;
   cursor: default;
 }
 
+/* 6) next‐level button */
 #next-button {
+  margin-top: 20px;
   padding: 10px 20px;
   font-size: 18px;
   border: none;
@@ -85,7 +84,6 @@ h1 {
   color: #fff;
   cursor: pointer;
 }
-
 #next-button:disabled {
   background-color: gray;
   cursor: not-allowed;
