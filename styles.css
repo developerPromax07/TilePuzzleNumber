@@ -3,21 +3,38 @@
   box-sizing: border-box;
 }
 
+/* make sure the page fills the screen */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* animated, shifting rainbow-ish gradient */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background: linear-gradient(to right, #223344, #778899);
-  margin: 0;
+  background: linear-gradient(270deg, #223344, #778899, #55aabb, #334455);
+  background-size: 800% 800%;
+  animation: GradientShift 15s ease infinite;
   padding: 20px;
   color: #fff;
+}
+
+@keyframes GradientShift {
+  0%   { background-position:   0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position:   0% 50%; }
 }
 
 h1 {
   margin-bottom: 20px;
 }
 
-/* 3×3 grid with 2px gaps so the outer border never overflows */
+/* keep the puzzle container above the animated background */
 #puzzle-container {
+  position: relative;
+  z-index: 1;
+
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows:    repeat(3, 100px);
@@ -68,6 +85,7 @@ h1 {
   color: #fff;
   cursor: pointer;
 }
+
 #next-button:disabled {
   background-color: gray;
   cursor: not-allowed;
